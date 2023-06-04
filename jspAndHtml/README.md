@@ -3,7 +3,7 @@
 
 DB 쿼리 결과를 JSONArray 받아
 html 태그로 표현 방법
-
+```
 public JSONArray  getRewardCartTable01 (){
 			
 			StringBuffer query = new StringBuffer();
@@ -102,3 +102,4 @@ public JSONArray  getRewardCartTable01 (){
 			}
 			
 		}
+		```
