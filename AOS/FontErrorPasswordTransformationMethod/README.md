@@ -1,9 +1,7 @@
-/**
- * 
- * 안드로이드에 커스텀 폰트를 적용 후 비밀번호 스타일 사용시 
-*  관련폰트가 없어 공백이 표시되는 경우가 있을때 이것을 사용하면 *로 표기 처리해서 보여주는 법
- */
+안드로이드에 커스텀 폰트를 적용 후 비밀번호 스타일 사용시 
+관련폰트가 없어 공백이 표시되는 경우가 있을때 이것을 사용하면 *로 표기 처리해서 보여주는 법
 
+```
 public class AsteriskPasswordTransformationMethod extends PasswordTransformationMethod {
     @Override
     public CharSequence getTransformation(CharSequence source, View view) {
@@ -26,3 +24,4 @@ public class AsteriskPasswordTransformationMethod extends PasswordTransformation
         }
     }
 }
+```
