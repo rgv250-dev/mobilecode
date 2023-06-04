@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+	<meta charset="utf-8">
+	<title>EMS Tower - ACCESS LOG</title>
+
+	<script type="text/javascript" src="/jca_common/jca_js/lib/jquery-1.9.1.min.js"></script>
+	<script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+	<script src="https://code.highcharts.com/highcharts.js"></script>
+	<script src="https://code.highcharts.com/modules/series-label.js"></script>
+	<script src="https://code.highcharts.com/modules/exporting.js"></script>
+	<link rel="stylesheet" type="text/css" href="./assets/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="./ems.css" />
+	<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+	<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+	<script src="//cdn.jsdelivr.net/jquery.color-animation/1/mainfile"></script>
+
+	<script src="/jca_common/jca_js/lib/jquery-ui.js"></script>
+	<script type="text/javascript" src="/jca_common/jca_js/function.js"></script>
+	<script type="text/javascript" src="/jca_common/jca_js/lib/jquery.ui.datepicker-ko.js"></script>
+	<script type="text/javascript" src="/jca_common/jca_js/function.js"></script>
+	<script type="text/javascript" src="/mobile/emstower/js/reward_cart_table.js"></script>
+
+	<style type="text/css">
+		.tg {
+			border-collapse: collapse;
+			border-spacing: 0;
+			width: 100%;
+		}
+
+		.tg td {
+			border-color: white;
+			border-style: solid;
+			border-width: 1px;
+			font-family: Arial, sans-serif;
+			font-size: 14px;
+			overflow: hidden;
+			padding: 10px 5px;
+			word-break: normal;
+		}
+
+		.tg th {
+			border-color: white;
+			border-style: solid;
+			border-width: 1px;
+			font-family: Arial, sans-serif;
+			font-size: 14px;
+			font-weight: normal;
+			overflow: hidden;
+			padding: 10px 5px;
+			word-break: normal;
+		}
+
+		.tg .tg-title {
+			text-align: center;
+			vertical-align: center;
+			font-size: 15px;
+			font-weight: bold;
+		}
+
+		.tg .tg-desc {
+			text-align: center;
+			vertical-align: top
+		}
+	</style>
+
+	<style>
+		div {
+			width: 100%;
+		}
+
+		div.left {
+			width: 50%;
+			float: left;
+
+		}
+
+		div.right {
+			width: 50%;
+			float: right;
+		}
+	</style>
+
+</head>
+
+<body>
+
+	<section class="wrapper">
+		<header id="header" class="header">
+			<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+				<a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">제목줄</a>
+
+				<nav class="col-sm-6">
+					<nav class="nav nav-pills flex-column flex-sm-row"">
+   					<a class=" flex-sm-fill text-sm-center nav-link " href=" ./111.html">1</a>
+						<a class="flex-sm-fill text-sm-center nav-link " href="./1111.html">1</a>
+						<a class="flex-sm-fill text-sm-center nav-link " href="./1111.html">1</a>
+						<a class="flex-sm-fill text-sm-center nav-link " href="./1111.html">1</a>
+						<a class="flex-sm-fill text-sm-center nav-link " href="./1111.html">11</a>
+						<a class="flex-sm-fill text-sm-center nav-link" href="./1111.html">1111</a>
+						<a class="flex-sm-fill text-sm-center nav-link " href="./1111.html">리워드</a>
+						<a class="flex-sm-fill text-sm-center nav-link " href="./1.html">123</a>
+						<a class="flex-sm-fill text-sm-center nav-link  " href="./11.html">15123</a>
+						<a class="flex-sm-fill text-sm-center nav-link  active"
+							href="./reward_cart_table_test.html">현화면</a>
+					</nav>
+				</nav>
+
+
+				<div class="form-check form-check-inline refresh-check">
+			
+			</div>
+
+			<div class="col-sm-3 option">
+			</div>
+
+
+			</nav>
+		</header>
+
+		<div !class="container-fluid" style="margin:10px;padding-left:0; padding-right:0;color:#ffffff;">
+			<div class="admin_wrap" style="width:100%;">
+				<div align="center" style="padding:5px 0px; margin-top:40px; margin-bottom:10px;">
+					<font style="font-size:40px;">모니터링</font>
+				</div>
+
+				<div align="center" id="loading_date" style="font-size:20px; margin-bottom:10px;">
+
+				</div>
+
+				<div>
+					<div class="left" style="border: 1px solid rgb(19, 17, 10); padding: 10px;">
+						<div class="col-sm-3 option" style="margin-bottom:5px;">
+							<select onchange="onTypeChange($(this).val())">
+								<option value="1">최근 2시간</option>
+								<option value="2">최근 12시간</option>
+								<option value="3">최근 1일</option>
+								<option value="4">최근 7일</option>
+							</select>
+						</div>
+
+						<table id="log_list" class="tg">
+							<thead>
+								<tr>
+									<th class="tg-title" rowspan="2">쇼핑몰명</th>
+									<th class="tg-title" colspan="3">주문번호</th>
+								</tr>
+								<tr>
+									<td class="tg-title">수집된 주문번호 건수 A</td>
+									<td class="tg-title">실패 로그 건수 B</td>
+									<td class="tg-title">오류 비율((B - A)/B)</td>
+								</tr>
+							</thead>
+							<tbody class="tg-desc">
+							</tbody>
+						</table>
+					</div>
+
+					<div class="right" style="border: 1px solid rgb(19, 17, 10); padding: 10px;">
+						<div class="form-check form-check-inline refresh-check" style="margin-bottom:6px;">
+							<input class="form-check-input" type="checkbox" id="refreshCheck" value="option1">
+							<label class="form-check-label" for="refreshCheck">1분마다<br>리프레시</label>
+						</div>
+
+						<table id="log_list_top10" class="tg">
+							<thead>
+								<tr>
+									<th class="tg-title" rowspan="2">쇼핑몰명</th>
+									<th class="tg-title" colspan="3">결제코드</th>
+								</tr>
+								<tr>
+									<td class="tg-title">최근 수집 주문번호</td>
+									<td class="tg-title">2차 대사 완료한 최근 주문번호</td>
+								</tr>
+							</thead>
+							<tbody class="tg-desc">
+
+							</tbody>
+						</table>
+					</div>
+
+
+				</div>
+
+			</div>
+
+
+		</div>
+
+		<script type="text/javascript">
+			$(document).ready(function () {
+				$('#refreshCheck').click(function () {
+					refreshView();
+				});
+			});
+		</script>
+
+		<!--  SCRIPT BEGIN -->
+		<script type="text/javascript">
+			var timerID;
+
+			var callTime = new Date();
+			callTime.setMilliseconds(0);
+
+			var timeType = 1;
+
+			function refreshView() {
+				if ($('#refreshCheck').is(':checked')) {
+					clearInterval(timerID)
+					timerID = setInterval('getListTest()', 60000);
+				} else {
+					clearInterval(timerID);
+				}
+			}
+
+
+			function onTypeChange(value) {
+				timeType = parseInt(value);
+
+				switch (timeType) {
+					case 1:
+						parsingType1(timeType)
+						break;
+
+					case 2:
+						parsingType2(timeType)
+						break;
+
+					case 3:
+						parsingType3(timeType)
+						break;
+
+					case 4:
+						parsingType4(timeType)
+						break;
+				}
+				refreshView();
+			}
+
+			function parsingType1(timeType) {
+
+				timeType = parseInt(timeType);
+				var url = 'http://jca.enuri.com:8080/mobile/emstower/jsp/reward_cart_table.jsp'
+					+ '?type=' + timeType;
+				$.ajax({
+					url: url,
+					dataType: 'json'
+				}).done(function (data) {
+					console.log(url);
+					console.log("출력확인: parsingType1");
+					var makeHtml = "";
+					$.each(data, function (i, v) {
+						makeHtml += "<tr>";
+						makeHtml += "	<td>" + v.shop_name + "</td>";
+
+						makeHtml += "	<td>" + v.reward_log_cnt + "</td>";
+						makeHtml += "	<td>" + v.reward_errorlog_cnt + "</td>";
+						makeHtml += "	<td>" + v.reward_errorlog_rate + "</td>";
+
+
+						makeHtml += "</tr>";
+					});
+					$('#log_list tbody').html(makeHtml);
+
+				});
+
+
+			}
+
+
+			function parsingType2(timeType) {
+
+				timeType = parseInt(timeType);
+				var url = 'http://jca.enuri.com:8080/mobile/emstower/jsp/reward_cart_table.jsp'
+					+ '?type=' + timeType;
+				$.ajax({
+					url: url,
+					dataType: 'json'
+				}).done(function (data) {
+					console.log(url);
+					console.log("출력확인: parsingType2");
+					console.log(data);
+					var makeHtml = "";
+					$.each(data, function (i, v) {
+						makeHtml += "<tr>";
+						makeHtml += "	<td>" + v.shop_name + "</td>";
+
+						makeHtml += "	<td>" + v.reward_log_cnt + "</td>";
+						makeHtml += "	<td>" + v.reward_errorlog_cnt + "</td>";
+
+						makeHtml += "	<td>" + v.reward_errorlog_rate + "</td>";
+
+
+						makeHtml += "</tr>";
+					});
+					$('#log_list tbody').html(makeHtml);
+
+
+
+				});
+
+
+
+
+			}
+
+			function parsingType3(timeType) {
+
+
+				timeType = parseInt(timeType);
+				var url = 'http://jca.enuri.com:8080/mobile/emstower/jsp/reward_cart_table.jsp'
+					+ '?type=' + timeType;
+				$.ajax({
+					url: url,
+					dataType: 'json'
+				}).done(function (data) {
+					console.log(url);
+					console.log("출력확인: parsingType3");
+					console.log(data);
+					var makeHtml = "";
+					$.each(data, function (i, v) {
+						makeHtml += "<tr>";
+						makeHtml += "	<td>" + v.shop_name + "</td>";
+
+						makeHtml += "	<td>" + v.reward_log_cnt + "</td>";
+						makeHtml += "	<td>" + v.reward_errorlog_cnt + "</td>";
+						makeHtml += "	<td>" + v.reward_errorlog_rate + "</td>";
+
+
+						makeHtml += "</tr>";
+					});
+					$('#log_list tbody').html(makeHtml);
+
+				});
+
+
+			}
+
+
+			function parsingType4(timeType) {
+
+				timeType = parseInt(timeType);
+				var url = 'http://jca.enuri.com:8080/mobile/emstower/jsp/reward_cart_table.jsp'
+					+ '?type=' + timeType;
+				$.ajax({
+					url: url,
+					dataType: 'json'
+				}).done(function (data) {
+					console.log(url);
+					console.log("출력확인: parsingType4");
+					console.log(data);
+					var makeHtml = "";
+					$.each(data, function (i, v) {
+						makeHtml += "<tr>";
+						makeHtml += "	<td>" + v.shop_name + "</td>";
+
+						makeHtml += "	<td>" + v.reward_log_cnt + "</td>";
+						makeHtml += "	<td>" + v.reward_errorlog_cnt + "</td>";
+
+						makeHtml += "	<td>" + v.reward_errorlog_rate + "</td>";
+
+
+						makeHtml += "</tr>";
+					});
+					$('#log_list tbody').html(makeHtml);
+
+
+
+				});
+
+
+
+
+			}
+
+
+			function getListTest() {
+
+				var url = 'http://jca.enuri.com:8080/mobile/emstower/jsp/reward_cart_table02.jsp';
+				$.ajax({
+					url: url,
+					dataType: 'json'
+				}).done(function (data) {
+					console.log(url);
+					console.log("출력확인: getListTest");
+					console.log(data)
+					var makeHtml = "";
+					var today = new Date();
+					$.each(data, function (i, v) {
+						makeHtml += "<tr>";
+						makeHtml += "	<td>" + v.shop_name + "</td>";
+
+						if (v.recent_rewardcode_warnning) {
+							makeHtml += "	<td style='background-color:red;'>" + v.recent_rewardcode + " [" + v.recent_rewardcode.length + "]</td>";
+							makeHtml += "	<td style='background-color:red;'>" + v.recent_ok_rewardcode + " [" + v.recent_ok_rewardcode.length + "]</td>";
+						} else {
+							makeHtml += "	<td>" + v.recent_rewardcode + " [" + v.recent_rewardcode.length + "]</td>";
+							makeHtml += "	<td>" + v.recent_ok_rewardcode + " [" + v.recent_ok_rewardcode.length + "]</td>";
+						}
+
+						makeHtml += "</tr>";
+					});
+					$('#log_list_top10 tbody').html(makeHtml);
+
+				});
+
+			}
+
+
+
+		</script>
+		<!--  SCRIPT  END -->
+	</section>
+</body>
+
+</html>
