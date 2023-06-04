@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingDefaultResource">
+
+    <data>
+        <variable
+            name="mallData"
+            type="com.test.data.shoData" />
+
+        <variable
+            name="handlers"
+            type="com.test.binding.ShopClickBinding" />
+    </data>
+
+    <!--샵 클릭 이벤트바인딩-->
+    <RelativeLayout
+        android:id="@+id/cell_main"
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:onClick="@{handlers::onClickListener}"
+        android:layout_height="51dp">
+
+        <!--샵 이미지 바인딩-->
+        <ImageView
+            android:id="@+id/shop_mall_image"
+            android:layout_width="75dp"
+            android:layout_height="25dp"
+            tools:srcCompat="@drawable/search_delete"
+            app:bind_image="@{shop.img}"
+            android:layout_centerInParent="true" />
+
+
+    </RelativeLayout>
+
+</layout>
