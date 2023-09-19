@@ -7,7 +7,8 @@
 
 현재는 채팅 내역을 읽고 답변 기능만 추가되어 나머지 옵션 값을 호출 하여도 답변하지 않습니다.
 
-const scriptName = “별별GPT”;
+메신저 R 소스 요약 
+const scriptName = “”; //스크립트 제목
 /**
 * (string) room
 * (string) sender
@@ -58,11 +59,14 @@ return result;
 
 }
 
-function onCreate(savedInstanceState, activity) {
-}
+function onCreate(savedInstanceState, activity) {}
+
 function onStart(activity) {}
+
 function onResume(activity) {}
+
 function onPause(activity) {}
+
 function onStop(activity) {}
 
 
