@@ -23,11 +23,11 @@ override fun onStart() {
 
 
 ```
-fun dialogFragmentSetWidthPercent(percentage: Int) {
-    val percent = percentage.toFloat() / 100
-    val dm = Resources.getSystem().displayMetrics
-    val rect = dm.run { Rect(0, 0, widthPixels, heightPixels) }
-    val percentWidth = rect.width() * percent
-    dialog?.window?.setLayout(percentWidth.toInt(), ViewGroup.LayoutParams.WRAP_CONTENT)
-}
+ fun setWidthPercent(percentage: Int, dialog: Dialog) {
+        val percent = percentage.toFloat() / 100
+        val dm = Resources.getSystem().displayMetrics
+        val rect = dm.run { Rect(0, 0, widthPixels, heightPixels) }
+        val percentWidth = rect.width() * percent
+        dialog.window?.setLayout(percentWidth.toInt(), ViewGroup.LayoutParams.WRAP_CONTENT)
+    }
 ```
