@@ -4,7 +4,7 @@ ifram형 유튜브 전체화면 및
 input type="file" 태그 
 권환 호출 후 사용 하는 것들 모음
 
-
+```
 binding.webView.webChromeClient = object : WebChromeClient() {
             //
             //웹뷰에 alert창에 url을 제거한다.
@@ -103,3 +103,4 @@ binding.webView.webChromeClient = object : WebChromeClient() {
             }
 
         }
+```
