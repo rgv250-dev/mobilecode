@@ -71,5 +71,5 @@ class CustomMarkerViewNoEvent// mpchart view marker
 
 
 # 스크린샷
-![이미지](./스크린샷.png)
+![이미지](./스크린샷.jpg)
 
