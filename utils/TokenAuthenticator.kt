@@ -6,7 +6,7 @@ class TokenAuthenticator(
         val request = chain.request()
         val response = chain.proceed(request)
 
-        if (response.code == 401 || response.code == 500) {
+        if (response.code == 401) {
             val token = SharedUtils(mContext).getString(Utils.TOKEN, "")
             val refreshToken = SharedUtils(mContext).getString(Utils.REFRESH_TOKEN, "")
             var data = 호출 하는 API .execute() //실행
