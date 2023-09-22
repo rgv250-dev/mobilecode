@@ -1,5 +1,3 @@
-//개인적으로는 정상적인 방식으로 토큰 교체방식을 썻으면 함 
-
 class TokenAuthenticator(
     var mContext: Context
 ) : Interceptor {
