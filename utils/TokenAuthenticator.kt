@@ -14,18 +14,6 @@ class TokenAuthenticator(
             var data = 호출 하는 API .execute() //실행
             if (data.isSuccessful) {
 
-                if (accessToken.isNullOrEmpty()) {
-                        //토큰 못받아 오는 경우에 처리 200일 떨어졌는데 없는 경우도 있을 수 있으니
-                } else {
-                    //받으면 처리 할 거
-                }
-
-                if (data.body()?.data?.refreshToken.isNullOrEmpty()) {
-                   //리플래시 토큰 못받았을때 
-                } else {
-                    //받으면 처리 할 거
-                }
-
                 if (data.body()?.data?.accessToken.isNullOrEmpty()) {
                     response.close() // 
                 } else {
@@ -47,7 +35,7 @@ class TokenAuthenticator(
     private fun Request.putHeader(mobileToken: String): Request {
         return this.newBuilder()
             .removeHeader("Authorization") //이미 들어간 헤더값 제거
-            .addHeader("Authorization", mobileToken)
+            .addHeader("Authorization", "Bearer " + mobileToken)
             .build()
     }
 
