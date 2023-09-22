@@ -70,3 +70,8 @@ function onPause(activity) {}
 function onStop(activity) {}
 
 
+
+# 스크린샷
+![이미지] ./2.png
+![이미지2] ./3.png
+
