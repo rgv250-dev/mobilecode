@@ -9,6 +9,7 @@ Room 예시
 
 단순하게 매 입력 값을 받아 저장하는 정도라고 생각하고 만들었다.
 
+
 ```
 
 @Database(entities = [KeywordsData::class], version = 1)
@@ -51,7 +52,7 @@ data class RecentKeywordsData (
 @Dao
 interface SearchKeyWordDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE) //충돌이 발생할 경우 덮어쓰기
     fun insert(recentKeywordsData: RecentKeywordsData)
 
     @Query("SELECT * FROM recent_word") // recentKeywordsData 모든 값을 가져와라
