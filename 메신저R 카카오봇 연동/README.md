@@ -107,5 +107,5 @@ function onStop(activity) {}
 
 ```
 
-![캡처](/메신저R 카카오봇 연동/1.png)
+![캡처](./메신저R 카카오봇 연동/1.png)
 
