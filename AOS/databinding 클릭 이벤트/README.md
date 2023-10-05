@@ -39,18 +39,18 @@ xml
 <!--디자인 생략-->
 
 </layout>
+```
 
 
 
-class LoginActivity 전체 소스 생략
 
 ```
+//class LoginActivity 전체 소스 생략
  override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding.handlers = this
-
-
+        
 ```
 
 
@@ -71,8 +71,6 @@ fun onOnClickOkButton(view: View){
 }
 
 ```
-
-이렇게 사용하면 된다.
 
 
 
