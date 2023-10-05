@@ -93,7 +93,7 @@ viewModel.moreViewData.observe(this@NoteMore, Observer {
 
             //에러 메세징용
             viewModel.fetch.observe(this@NoteMore) {
-                //디버그 용 주소 
+                //디버그 용 내용 토스트 메세지나 다이얼로그 호출 
             }
 
 
