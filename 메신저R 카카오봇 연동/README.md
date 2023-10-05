@@ -109,3 +109,5 @@ function onStop(activity) {}
 
 ![캡처](./images/1.png)
 
+![QR코드](./images/2.png)
+
