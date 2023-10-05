@@ -109,5 +109,6 @@ function onStop(activity) {}
 
 ![캡처](./images/1.png)
 
+친구 추가용 QR
 ![QR코드](./images/2.png)
 
