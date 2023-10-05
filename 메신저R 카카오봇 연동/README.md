@@ -107,8 +107,11 @@ function onStop(activity) {}
 
 ```
 
+**친구 추가용 QR**  
+![QR코드](./images/2.png)
+
+**답변 상태**  
 ![캡처](./images/1.png)
 
-친구 추가용 QR
-![QR코드](./images/2.png)
+
 
