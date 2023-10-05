@@ -1,4 +1,6 @@
-안드로이드 다이얼로그 (DialogFragment()) 사이즈 대응 법
+안드로이드 다이얼로그 (DialogFragment()) 사이즈 대응 법 
+
+전체 화면에서 percentage로 화면 나타내기
 
 DialogFragment()에 onStart
 
