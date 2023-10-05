@@ -2,6 +2,13 @@
 
 딱히 쓸모는 없음
 
+호출 방식
+
+```
+
+Utils.pxFromDp(context, 16) 
+
+```
 
 ```
 object Utils {
