@@ -152,15 +152,14 @@ struct BackgroundBlurView: UIViewRepresentable {
 
     func didUpdateState(_ state: AuthCodeState) {
         if case .confirmed = state {
-            
-            
-        let token = keychainUtils.readItemsOnKeyChain(accountData: "키이름 비슷한거 이건 알아서 만드셔야하구요") //       
-        
+
+        let token = keychainUtils.readItemsOnKeyChain(accountData: "키이름 비슷한거 이건 알아서 만드셔야하구요")
+        //API 호출 후 Refresh Token만료 되어서 재발급 시키거나 다음 프로세스로 이동시면 된다.
             
         }else if case .unconfirmed = state {
            
         }else if case .lockdown = state {
-            
+            //생체 인증이 계속 실패해서 잠긴 상태
         }else if case .notWorking = state {
             
         }
