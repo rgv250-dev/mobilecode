@@ -1,5 +1,14 @@
- SwiftUI로 페이지를 구성한 이유는 대부분 알겠지만 인증이라는게 로그인만 쓰이는것이면 크게 상관 없다.
-근대 이래 저래 호출되는거면 차라리 뷰 위에 띄우는걸로 끝내고 꺼두는게 마음 편할거 같아서 구성하였다
+iOS 생체 인증 이후 토큰을 이용한 로그인 또는 인증 방식 
+
+보통의 생체 인증을 이용한 로그인이나 인증시에는 방법이 2가지이 있다. 
+
+서버 통신을 이용하여 토큰과 리플래시 토큰을 미리 생성하여 저장 하여, 인증만 받아서 서비스를 진행하거나
+또는 생체 인증이 끝난 후 생성된 값을 서버에 저장 하여 비교 이후 그 값을 기준으로 인증을 받는 방법이 있다.
+
+하지만 보통의 앱 서비스라고 가정하면 전자로 구성되어 있는 경우가 많다. 
+
+구성은 심플하다 스위프트 UI 페이지 
+인증 성공 시 인증을 진행, 실패 시 관련 알림 또는 작업을 진행하는 것이다.
 
 ```
 
@@ -134,14 +143,13 @@ struct BackgroundBlurView: UIViewRepresentable {
 
 
 ```
-
 호출 방법
 ```
     var swiftUIBioAuth = BioAuthView()
-            swiftUIBioAuth.delegate = self
-            let hostingController = UIHostingController(rootView: swiftUIBioAuth)
-            hostingController.modalPresentationStyle = UIModalPresentationStyle.overFullScreen
-            present(hostingController, animated: true, completion: nil) 
+    swiftUIBioAuth.delegate = self
+    let hostingController = UIHostingController(rootView: swiftUIBioAuth)
+    hostingController.modalPresentationStyle = UIModalPresentationStyle.overFullScreen
+    present(hostingController, animated: true, completion: nil) 
    
     
 ```
@@ -151,20 +159,18 @@ struct BackgroundBlurView: UIViewRepresentable {
 ```
 
     func didUpdateState(_ state: AuthCodeState) {
-        if case .confirmed = state {
 
-        let token = keychainUtils.readItemsOnKeyChain(accountData: "키이름 비슷한거 이건 알아서 만드셔야하구요")
-        //API 호출 후 Refresh Token만료 되어서 재발급 시키거나 다음 프로세스로 이동시면 된다.
-            
+        if case .confirmed = state {
+        let token = keychainUtils.readItemsOnKeyChain(accountData: "키이름 비슷한거 이건 알아서 만드셔야하구요") //       
+        //통신 후 토큰 만료 시 리플래시 토큰을 이용한 재발급 또는 작업 또는 다른 방법 소개
         }else if case .unconfirmed = state {
-           
+           //실패
         }else if case .lockdown = state {
-            //생체 인증이 계속 실패해서 잠긴 상태
+         //생체 인증 실패로 잠김   
         }else if case .notWorking = state {
-            
+         //생체 인증 기능이 되어 있지 않는 상태
         }
         
     }
-
 
 ```
