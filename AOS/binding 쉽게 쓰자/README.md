@@ -42,8 +42,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>({ ActivityLoginBinding.
 binding.뷰이름 으로 사용
 
 
-
-
 ```
 
 BaseFragment에서 쓰는 법
