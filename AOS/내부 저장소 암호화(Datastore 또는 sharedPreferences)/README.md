@@ -13,11 +13,7 @@ XML 파일이기에 외부에서 쉽게 파일을 읽을 수 있다.
 
 업데이트 주기가 길고 여유가 된다면, Datastore로 갈아타자 
 
-Preference DataStore를 쓰면 된다
-
-
-
-암호형 내부 저장소 사용 이렇고,
+암호형 내부 저장소 코드는 이렇고 아래에 Datastore 추가 해두었다. 어느것이든 선택해서 쓰도록 하자
 ```
 
 class SecuritySharedUtils(context: Context) {
