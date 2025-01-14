@@ -1,24 +1,30 @@
 BaseActivity에서 binding 쉽게 쓰는 법
 
 ```
-/**
- * Created by rgv250-dev on 2020-04-14.
- * BaseActivity 
- * */
+import android.os.Bundle
+import android.view.LayoutInflater
+import androidx.appcompat.app.AppCompatActivity
+import androidx.viewbinding.ViewBinding
+import com.google.firebase.analytics.FirebaseAnalytics
 
+/**
+ * Created by Dev.Son on 2023-12-13.
+ * BaseActivity 공용 액티비티에서 공용으로 쓸 것 들 모음
+ */
 abstract class BaseActivity<B : ViewBinding>(
-    val bindingFactory: (LayoutInflater) -> B
+    private val bindingFactory: (LayoutInflater) -> B
 ) : AppCompatActivity() {
 
     private var _binding: B? = null
-    val binding get() = _binding!!
+    val binding: B
+        get() = _binding ?: throw IllegalStateException("Binding is only valid between onCreate and onDestroy")
 
-    private var mFirebaseAnalytics: FirebaseAnalytics? = null
+    private val mFirebaseAnalytics: FirebaseAnalytics by lazy { FirebaseAnalytics.getInstance(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = bindingFactory(layoutInflater)
-        setContentView(binding.root)
+        preLoad()
+        _binding = bindingFactory(layoutInflater).also { setContentView(it.root) }
     }
 
     override fun onDestroy() {
@@ -26,7 +32,9 @@ abstract class BaseActivity<B : ViewBinding>(
         _binding = null
     }
 
+    abstract fun preLoad()
 }
+
 
 예시
 class LoginActivity : BaseActivity<ActivityLoginBinding>({ ActivityLoginBinding.inflate(it) }) {
@@ -44,19 +52,17 @@ BaseFragment에서 쓰는 법
 
 typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
 
-/**
- * Created by rgv250-dev on 2020-04-14.
- * BaseActivity 공용 BaseFragment 쓸 내용
- * */
 abstract class BaseFragment<V : ViewBinding>(
     private val inflate: Inflate<V>
 ) : Fragment() {
 
-    private lateinit var _binding: V
-    val binding get() = _binding
+    private var _binding: V? = null
+    val binding: V
+        get() = _binding ?: throw IllegalStateException("Binding is only valid between onCreateView and onDestroyView")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
     }
 
     override fun onCreateView(
@@ -70,9 +76,8 @@ abstract class BaseFragment<V : ViewBinding>(
 
     override fun onDestroyView() {
         super.onDestroyView()
+        _binding = null
     }
-
-
 }
 
 
