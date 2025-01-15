@@ -7,8 +7,7 @@ iOS 생체 인증 이후 토큰을 이용한 로그인 또는 인증 방식
 
 하지만 보통의 앱 서비스라고 가정하면 전자로 구성되어 있는 경우가 많다. 
 
-구성은 심플하다 스위프트 UI 페이지 
-인증 성공 시 인증을 진행, 실패 시 관련 알림 또는 작업을 진행하는 것이다.
+페이스 아이디 또는 터치 아이디로 인증을 받는 것을 SWiftUI로 구성하고 백그라운드는 투명 처리 한 후 인증이 완료가 되면, 현재 화면을 닫고 기능을 사용 하도록 하면 된다.
 
 ```
 
@@ -143,7 +142,7 @@ struct BackgroundBlurView: UIViewRepresentable {
 
 
 ```
-호출 방법
+호출 방법 UIViewController에서 swiftUI를 콜 하는 방법
 ```
     var swiftUIBioAuth = BioAuthView()
     swiftUIBioAuth.delegate = self
@@ -154,7 +153,6 @@ struct BackgroundBlurView: UIViewRepresentable {
     
 ```
 
-최종 상태값에 따른 확인법 
 
 ```
 
