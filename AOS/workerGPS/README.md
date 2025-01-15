@@ -1,121 +1,125 @@
-워크매니저를 이용한 백그라운드 GPS 연동
+워크 매니저 예시
 
-물론 당연하게도 권한을 받지 않고는 이걸 쓸 수 있는 방법은 없다.
+워크 매니저를 이용하여 사용자의 GPS 정보를 서버로 전달
 
-여러가지 백그라운드 GPS를 받는 방법은 있지만 개인적으로는 매 시간, 매초 매분으로 받는거라면 포그라운드를 이용하는게 맞다.
+GPS 권한이 안됨
 
-못해도 몇분 마다 돈다고 가정하면 워크매니저를 통해서 GPS 정보를 보내는게 효율적이다 판단한다.
+예시로는 카시오와치앱의 블루투스로 시계의 시간 조정하는 작업같은 지속적이고 보장된 작업에 사용하는것이 좋음
 
-사실 더 많은 방법이 있지만 그냥 보내던걸로 끝낼거면 이정도가 제일 좋더라.
+PeriodicWorkRequest를 생성할 때 설정할 수 있는 최소 간격은 15분입니다.
 
 ```
-
-class KokkanWorker(
+class TestWorker(
     context: Context,
     workerParams: WorkerParameters
 ) : CoroutineWorker(context, workerParams) {
 
-    var mContext = context
-
-    private val mFusedLocationClient: FusedLocationProviderClient by lazy {
+    private val mContext = context
+    private val fusedLocationClient: FusedLocationProviderClient by lazy {
         LocationServices.getFusedLocationProviderClient(mContext)
     }
 
-    override suspend fun doWork(): Result {
+    private val logTag = "workerTest"
 
-        if (ActivityCompat.checkSelfPermission(
-                applicationContext,
-                android.Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                applicationContext,
-                android.Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
+    override suspend fun doWork(): Result {
+        if (!hasLocationPermission()) {
+            Log.e(logTag, "위치 권한이 없습니다.")
             return Result.failure()
         }
-        checkDistance()
 
-        return Result.success()
+        return try {
+            processLocation()
+            Result.success()
+        } catch (e: Exception) {
+            Log.e(logTag, "doWork 예외 발생: ${e.message}", e)
+            Result.failure()
+        }
     }
 
-    private fun checkDistance() {
+    /**
+     * 위치 권한 확인
+     */
+    private fun hasLocationPermission(): Boolean {
+        val fineLocationPermission = ActivityCompat.checkSelfPermission(
+            mContext, android.Manifest.permission.ACCESS_FINE_LOCATION
+        )
+        val coarseLocationPermission = ActivityCompat.checkSelfPermission(
+            mContext, android.Manifest.permission.ACCESS_COARSE_LOCATION
+        )
+        return fineLocationPermission == PackageManager.PERMISSION_GRANTED &&
+                coarseLocationPermission == PackageManager.PERMISSION_GRANTED
+    }
+
+    /**
+     * 위치 데이터를 처리하고 서버로 전송
+     */
+    private suspend fun processLocation() {
         try {
-            //마지막 위치를 가져오는데에 성공한다면
-            mFusedLocationClient.lastLocation.addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    task.result?.let { aLocation ->
-                        val fromLat = aLocation.latitude
-                        val fromLng = aLocation.longitude
-                        val userData = 토큰 가져오는 곳
-
-                        val data = JsonObject()
-                        data.addProperty("lat", fromLat.toString())
-                        data.addProperty("lng", fromLng.toString())
-                        data.addProperty("userData", userData)
-                        //위도 경도 유저 유저 토큰을 보내서 확인함
-
-                        val exceptionHandler =
-                            CoroutineExceptionHandler { coroutineContext, throwable ->
-                                Log.e("postData", "throwable : " + throwable.message)
-                                when (throwable) {
-                                    is SocketException -> {
-                                        Log.d("postData", "erorr SocketException : ")
-                                    }
-
-                                    is HttpException -> {
-                                        Log.d("postData", "erorr HttpException : ")
-                                    }
-
-                                    is UnknownHostException -> {
-                                        Log.d("postData", "erorr UnknownHostException : ")
-                                    }
-
-                                    else -> {
-                                        Log.d("postData", "erorr throwable : ${throwable.message}")
-                                    }
-                                }
-                            }
-
-                        if (Utils.isOnline(mContext) && userPhone.isNotEmpty()) {
-                            CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
-                                val postmData = restUtil.api.postGPSData(data)
-                                if (postData.isSuccessful) {
-                                    Log.d("postData", "post")
-                                } else {
-                                    Log.d("postData", "erorr : " + postFcmData.message().toString())
-                                }
-                            }
-                        } else {
-                            Log.d("postData", "do worker else??")
-                        }
-
-                    }
+            val lastLocation = fusedLocationClient.lastLocation.await()
+            if (lastLocation != null) {
+                val data = createLocationData(lastLocation.latitude, lastLocation.longitude)
+                if (Utils.isOnline(mContext)) {
+                    sendDataToServer(data)
                 } else {
-                    Log.d("postData", "task erorr")
+                    Log.e(logTag, "네트워크가 연결되지 않았습니다.")
                 }
+            } else {
+                Log.e(logTag, "마지막 위치를 가져올 수 없습니다.")
             }
-        } catch (err: SecurityException) {
-            Log.d("postData", "SecurityException")
+        } catch (e: SecurityException) {
+            Log.e(logTag, "위치 보안 예외 발생: ${e.message}")
+        }
+    }
+
+    /**
+     * 위치 데이터를 생성
+     */
+    private fun createLocationData(lat: Double, lng: Double): JsonObject {
+        return JsonObject().apply {
+            addProperty("lat", lat.toString())
+            addProperty("lng", lng.toString())
+            addProperty("userData", "testUser")
+        }
+    }
+
+    /**
+     * 서버로 위치 데이터를 전송
+     * 단순 전달용 어떠한 작업을 진행하지 않음
+     */
+    private suspend fun sendDataToServer(data: JsonObject) {
+        val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+            Log.e("KokkanWorker", "데이터 전송 중 오류 발생: ${throwable.message}", throwable)
+        }
+
+        withContext(Dispatchers.IO + exceptionHandler) {
+            try {
+                val response = TestWorkerRestUtil.api.sendInfoData(data)
+                if (response.isSuccessful) {
+                    Log.d(logTag, "데이터 전송 성공")
+                } else {
+                    Log.e(logTag, "데이터 전송 실패: ${response.message()}")
+                }
+            } catch (e: Exception) {
+                Log.e(logTag, "서버 전송 실패: ${e.message}", e)
+            }
         }
     }
 }
 
 
 ```
-메소드를 통해 워크매니저를 등록
 
+기기가 충전중이지 않아도 된다 
+실행 시간을 설정하고 만약 이미 등록되어 있다면 업데이트 처리 하도록 한다.
+PeriodicWorkRequest를 생성할 때 설정할 수 있는 최소 간격은 15분
 ```
-
-   if (Utils.permissionCheckBack(this@MainActivity)) {
-                val constraints = Constraints.Builder().setRequiresCharging(false).build()
+//권한 체크 하고 생략 
+val constraints = Constraints.Builder().setRequiresCharging(false).build()
                 val periodicWorkRequest =
-                    PeriodicWorkRequestBuilder<wokerGPS>('최소시간', TimeUnit.MINUTES)
+                    PeriodicWorkRequestBuilder<TestWorker>("실행주기 시간 설정", TimeUnit.MINUTES)
                         .setConstraints(constraints)
                         .build()
                 WorkManager.getInstance(application).enqueueUniquePeriodicWork(
-                    "wokerGPS", ExistingPeriodicWorkPolicy.UPDATE, periodicWorkRequest
-                )
-            }
-
-
+                    "TestWorker", ExistingPeriodicWorkPolicy.UPDATE, periodicWorkRequest
+)
 ```
