@@ -81,7 +81,7 @@ object BioAuthManger {
         promptInfo = BiometricPrompt.PromptInfo.Builder()
             .setTitle("생체 인증 로그인")
             .setAllowedAuthenticators(BIOMETRIC_WEAK)
-            .setDescription("프리모 차주앱 로그인 진행을 위해 인증을 해주세요.")
+            .setDescription("로그인 진행을 위해 인증을 해주세요.")
             .setNegativeButtonText("취소")
             .build()
 
