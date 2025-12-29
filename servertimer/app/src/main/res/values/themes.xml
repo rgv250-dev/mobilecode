@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Servertimer" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <!-- 스플래시 테마 -->
+    <style name="Theme.ServerTimer.Splash" parent="Theme.SplashScreen">
+        <!-- 메인 액티비티랑 맞춘 딥 네이비 배경 -->
+        <item name="windowSplashScreenBackground">#050816</item>
+
+        <!-- 가운데에 보여줄 아이콘 (지금 만든 네온 시계 벡터) -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+
+        <!-- 애니메이션 길이 (ms) : 너무 길면 답답하니 300~500 추천 -->
+        <item name="windowSplashScreenAnimationDuration">400</item>
+
+        <!-- 스플래시 끝나고 적용할 실제 앱 테마 -->
+        <item name="postSplashScreenTheme">@style/Theme.Servertimer</item>
+    </style>
+
+</resources>
+
+

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- 시계 테두리: 조금 더 작게 + 얇게 -->
+    <path
+        android:pathData="M12,4.5a7.5,7.5 0 1,0 0,15a7.5,7.5 0 1,0 0,-15z"
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#00F5FF"
+        android:strokeWidth="1"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+
+    <!-- 시곗바늘 (세로) -->
+    <path
+        android:pathData="M12,12 L12,7.5"
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#00F5FF"
+        android:strokeWidth="1"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+
+    <!-- 시곗바늘 (대각) -->
+    <path
+        android:pathData="M12,12 L15.5,10.3"
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#00F5FF"
+        android:strokeWidth="1"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+
+    <!-- 가운데 점 -->
+    <path
+        android:pathData="M12,11.4a0.7,0.7 0 1,0 0.01,0z"
+        android:fillColor="#00F5FF" />
+</vector>
